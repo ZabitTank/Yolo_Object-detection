@@ -196,7 +196,7 @@ def load_model(model_name):
                
             return model, labels
         except Exception as ex:
-            print(ex)
+            st.warning(ex)
             return None, None
             
     
