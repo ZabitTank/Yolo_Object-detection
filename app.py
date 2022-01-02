@@ -196,6 +196,10 @@ def load_model(model_name):
                
             return model, labels
         except Exception as ex:
+            st.write(cfg_path)
+            st.write(weights_path)
+            st.write(latbels_path)
+            st.write(MODEL_PATH)
             st.warning(ex)
             return None, None
             
