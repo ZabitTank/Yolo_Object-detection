@@ -14,7 +14,7 @@ MODEL_PATH = os.path.join(Path(__file__).parent, 'model')
 
 URL_PRETRAIN_MODEL = {
 "yolov4-tiny.weights" : "https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v4_pre/yolov4-tiny.weights",
-"yolov4-tiny.cfg ": "https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4-tiny.cfg",
+"yolov4-tiny.cfg": "https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4-tiny.cfg",
 "yolov4-tiny.names" : "https://raw.githubusercontent.com/pjreddie/darknet/master/data/coco.names"
 }
 
@@ -22,7 +22,7 @@ PRETRAIN_MODEL_NAME = "yolov4-tiny"
 
 URL_CUSTOM_MODEL = {
 "yolov4-custom.weights" : "https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v4_pre/yolov4-p5.weights",
-"yolov4-custom.cfg ": "https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4-p5.cfg",
+"yolov4-custom.cfg": "https://raw.githubusercontent.com/AlexeyAB/darknet/master/cfg/yolov4-p5.cfg",
 "yolov4-custom.names" : "https://raw.githubusercontent.com/pjreddie/darknet/master/data/coco.names"
 }
 
