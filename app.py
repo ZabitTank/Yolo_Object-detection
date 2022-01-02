@@ -171,7 +171,7 @@ def main_page_render(modelName,model,labels):
             st.image(detect_image(model,labels,img,confThreshold,nmsThreshold))
         
 #Note: cache model
-@st.cache(allow_output_mutation=True)        
+#@st.cache(allow_output_mutation=True)        
 def load_model(model_name):
     with st.spinner('Loading model...'):
         try:
@@ -201,7 +201,7 @@ def load_model(model_name):
             
     
 #Note:cache image 
-#@st.cache(suppress_st_warning=True)
+@st.cache(suppress_st_warning=True)
 def load_image(image_source):
     with st.spinner('Loading image...'):
         try:
