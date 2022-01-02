@@ -201,7 +201,7 @@ def load_model(model_name):
             
     
 #Note:cache image 
-@st.cache(suppress_st_warning=True)
+#@st.cache(suppress_st_warning=True)
 def load_image(image_source):
     with st.spinner('Loading image...'):
         try:
