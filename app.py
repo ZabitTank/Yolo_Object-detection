@@ -6,11 +6,11 @@ import streamlit as st
 import cv2
 import numpy as np
 import os
-from pathlib import Path
+
 #for download model
 import urllib3
 
-MODEL_PATH = os.path.join(Path(__file__).parent, 'model')
+MODEL_PATH = os.path.join(os.path.dirname(__file__), 'model')
 
 URL_PRETRAIN_MODEL = {
 "yolov4-tiny.weights" : "https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v4_pre/yolov4-tiny.weights",
@@ -26,7 +26,7 @@ URL_CUSTOM_MODEL = {
 "yolov4-custom.names" : "https://raw.githubusercontent.com/pjreddie/darknet/master/data/coco.names"
 }
 
-MY_MODEL_NAME = "yolo-custom"
+MY_MODEL_NAME = "yolov4-custom"
 
 http = urllib3.PoolManager()
 
@@ -171,7 +171,7 @@ def main_page_render(modelName,model,labels):
             st.image(detect_image(model,labels,img,confThreshold,nmsThreshold))
         
 #Note: cache model
-#@st.cache(allow_output_mutation=True)        
+@st.cache(allow_output_mutation=True)        
 def load_model(model_name):
     with st.spinner('Loading model...'):
         try:
@@ -196,11 +196,7 @@ def load_model(model_name):
                
             return model, labels
         except Exception as ex:
-            st.write(cfg_path)
-            st.write(weights_path)
-            st.write(labels_path)
-            st.write(MODEL_PATH)
-            st.warning(ex)
+            print(ex)
             return None, None
             
     
