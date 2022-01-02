@@ -6,11 +6,11 @@ import streamlit as st
 import cv2
 import numpy as np
 import os
-#from pathlib import Path
+from pathlib import Path
 #for download model
 import urllib3
 
-MODEL_PATH = os.path.join(os.path.dirname(__file__), 'model')
+MODEL_PATH = os.path.join(Path(__file__).parent, 'model')
 
 URL_PRETRAIN_MODEL = {
 "yolov4-tiny.weights" : "https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v4_pre/yolov4-tiny.weights",
