@@ -9,7 +9,6 @@ import os
 
 #for download model
 import urllib3
-from pathlib import Path
 
 ROOT_PATH = os.path.dirname(__file__) + '/model'
 
