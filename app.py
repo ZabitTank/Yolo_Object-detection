@@ -9,9 +9,9 @@ import os
 
 #for download model
 import urllib3
+from pathlib import Path
 
-
-ROOT_PATH = os.path.dirname(__file__) + '/model/'
+ROOT_PATH = os.path.dirname(__file__) + '/model'
 
 URL_PRETRAIN_MODEL = {
 "yolov4-tiny.weights" : "https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v4_pre/yolov4-tiny.weights",
@@ -35,7 +35,7 @@ def download_file(file_name,url):
     weights_warning, progress_bar = None, None
     MEGABYTES = 2.0 ** 20.0
     # check if existed
-    path = ROOT_PATH + file_name
+    path = os.path.join(ROOT_PATH,file_name)
     
     response = http.request('GET',url,preload_content=False)
     length = int(response.headers.get("Content-Length"))
@@ -66,7 +66,7 @@ def check_missing_model(url_model,download_file):
     flag_download = False
     
     for file_name in url_model:
-        path = ROOT_PATH + file_name
+        path = path = os.path.join(ROOT_PATH,file_name)
         if not os.path.exists(path):
             flag_download = True        
             st.warning("Missing %s" % file_name)
@@ -78,7 +78,7 @@ def check_update(url_model,update_file):
     flag_update = False
 
     for file_name in url_model:
-        path = ROOT_PATH + file_name
+        path = os.path.join(ROOT_PATH,file_name)
        
         os.path.getsize(path)
             
@@ -176,9 +176,14 @@ def main_page_render(modelName,model,labels):
 def load_model(model_name):
     with st.spinner('Loading model...'):
         try:
-            cfg_path = os.path.abspath(ROOT_PATH+model_name+".cfg")
-            weights_path = os.path.abspath(ROOT_PATH+model_name+".weights")
-    
+            cfg = model_name+".cfg"
+            weight = model_name+".weight"
+            label = model_name+".label"
+            
+            cfg_path = os.path.join(ROOT_PATH,model_name+".cfg")
+            weights_path = os.path.join(ROOT_PATH,model_name+".weights")
+            labels_path = os.path.join(ROOT_PATH,model_name+".names")
+            
             net = cv2.dnn.readNetFromDarknet(cfg_path, weights_path)
             
             model = cv2.dnn_DetectionModel(net)
@@ -187,7 +192,7 @@ def load_model(model_name):
             model.setInputScale(1.0 / 255)
             model.setInputSwapRB(True)
             
-            with open(os.path.abspath(ROOT_PATH+model_name+".names"), 'rt') as f:
+            with open(os.path.abspath(labels_path), 'rt') as f:
                 labels = f.read().strip().split("\n")
                
             return model, labels
