@@ -174,10 +174,10 @@ def main_page_render(modelName,model,labels):
 def load_model(model_name):
     with st.spinner('Loading model...'):
         try:
-            cfg_path = os.path.abspath(model_name+".cfg")
-            weights_path = os.path.abspath(model_name+".weights")
+            #cfg_path = os.path.abspath(model_name+".cfg")
+            #weights_path = os.path.abspath(model_name+".weights")
     
-            net = cv2.dnn.readNetFromDarknet(cfg_path, weights_path)
+            net = cv2.dnn.readNetFromDarknet(model_name+".cfg", model_name+".weights")
             
             model = cv2.dnn_DetectionModel(net)
             
