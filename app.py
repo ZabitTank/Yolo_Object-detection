@@ -32,12 +32,21 @@ URL_CUSTOM_MODEL_1 = {
 MY_MODEL_NAME_1 = "yolov4-tiny-custom"
 
 URL_CUSTOM_MODEL_2 = {
+"yolov4-custom.weights" : "https://drive.google.com/u/0/uc?export=download&confirm=Ep9U&id=1fxOZYOdbCx5zP_kJZmWbtHfFvpe-5_7n",
+"yolov4-custom.cfg": "https://raw.githubusercontent.com/ZabitTank/Store-training-model/main/yolov4-custom.cfg",
+"yolov4-custom.names" : "https://raw.githubusercontent.com/ZabitTank/Store-training-model/main/obj.names"
+}
+
+MY_MODEL_NAME_2 = "yolov4-custom"
+
+
+URL_FASTFOOD_MODEL = {
 "yolov4-tiny-fastfood.weights" : "https://github.com/ZabitTank/Store-training-model/raw/main/yolov4-tiny-fast-food.weights",
 "yolov4-tiny-fastfood.cfg": "https://raw.githubusercontent.com/ZabitTank/Store-training-model/main/yolov4-tiny-fast-food.cfg",
 "yolov4-tiny-fastfood.names" : "https://raw.githubusercontent.com/ZabitTank/Store-training-model/main/fast-food.names"
 }
 
-MY_MODEL_NAME_2 = "yolov4-tiny-fastfood"
+FASTFOOD_MODEL_NAME = "yolov4-tiny-fastfood"
 
 
 
@@ -105,7 +114,10 @@ def check_update(url_model,update_file):
             
 
 def show_download_model_button(model_name,url_model,files,is_update):
-    button = st.button("download %s" % model_name)
+    if(is_update):
+        button = st.button("Update %s" % model_name)
+    else:
+        button = st.button("Download %s" % model_name)
     
     if(button):
         if is_update:
@@ -118,6 +130,21 @@ def show_download_model_button(model_name,url_model,files,is_update):
             st.legacy_caching.clear_cache()
         st.experimental_rerun()
 
+
+def load_evaluation_img(path):
+    st.header("Fast food evaluation chart")
+    st.image(path+"food-early-chart.png")
+    st.image(path+"food-mid-chart.png")
+    st.image(path+"food-final-chart.png")
+    st.header("Fast food evaluation value")
+    st.image(path+"food-final-score.png")
+    st.header("Test model evaluation chart")            
+    st.image(path+"test-evaluation.png")
+    st.header("Fast food evaluation value")
+    st.image(path+"test-final-score.png")
+    
+    
+    
         
 def main():
     download_file = {}
@@ -135,31 +162,39 @@ def main():
             image_size = st.slider("Width and Height: ",32,896,416,32)
             
             modelName = st.selectbox("What model you want to use?",
-            ("pre-train model", "test model","Fast food detection"))
+            ("Pre-train model", "Train model (yolov4-tiny)","Train model (yolov4)","Fast food detection"))
             
             loading_model_button = st.form_submit_button("Load")
         
         clear_cache_button = st.sidebar.button("clear cache")
         if(clear_cache_button): st.legacy_caching.clear_cache()
     
-    
     ss = SessionState.get(loading_model_button = False)
     
     if(loading_model_button):
         ss.loading_model_button = True
     
-    
     if(ss.loading_model_button):
-        st.write("current Input size: " , image_size)
-        if (modelName == "pre-train model" ):
-            st.title("Yolo pre-train yolov4-p5")
+        
+        if (modelName == "Pre-train model" ):
+            st.title("Yolo pre-train model: yolov4-p5")
             handleNavigate(modelName,image_size,URL_PRETRAIN_MODEL,PRETRAIN_MODEL_NAME,download_file,update_file)
-        elif (modelName == "test model"):
-            st.title("yolo-tiny custom")
+            
+        elif (modelName == "Train model (yolov4-tiny)"):
+            st.title(modelName)
             handleNavigate(modelName,image_size,URL_CUSTOM_MODEL_1,MY_MODEL_NAME_1,download_file,update_file)
+            
         elif (modelName == "Fast food detection"):
-            st.title("Fast food dectection")
-            handleNavigate(modelName,image_size,URL_CUSTOM_MODEL_2,MY_MODEL_NAME_2,download_file,update_file)
+            st.title(modelName)
+            handleNavigate(modelName,image_size,URL_FASTFOOD_MODEL,FASTFOOD_MODEL_NAME,download_file,update_file)
+
+        elif (modelName == "Train model (yolov4)"):
+            st.write("File size is too large. I can't upload to github. So this model is only demo in local machine")
+            st.write("One more thing is this model has no evaluation information")
+            st.write("I am using this page to show evaluation chart of another training model")
+            
+            load_evaluation_img("./image/")
+            
 
 #####################################################################################
     
@@ -169,7 +204,7 @@ def handleNavigate(modelName,image_size,url_model,model_original_name,download_f
     if(check_missing_model(url_model,download_file)):
         show_download_model_button(modelName,url_model,download_file,False)
     else:
-        check_update_button = st.button("check update")
+        check_update_button = st.button("Check update")
         if check_update_button:
             check_update(url_model,update_file)
         show_download_model_button(modelName,url_model,download_file,True)
@@ -182,15 +217,15 @@ def handleNavigate(modelName,image_size,url_model,model_original_name,download_f
 
 def main_page_render(modelName,image_size,model,labels):
     #col1,col2 = st.columns(2)
-    
+    st.write("Current Input size: " , image_size)
     input_form = st.form(key="input") 
     
     input_form.header("Current model: " + modelName)
     
     input_form.selectbox("Object can be detected on this model",labels)
     
-    confThreshold = input_form.slider("confThreshold: ",0.0,1.0,0.1,0.1)
-    nmsThreshold = input_form.slider("nmsThreshold: ", 0.0,1.0,0.4,0.1)
+    confThreshold = input_form.slider("confThreshold: ",0.0,1.0,0.1,0.01)
+    nmsThreshold = input_form.slider("nmsThreshold: ", 0.0,1.0,0.4,0.01)
     
     imgSource = selectImage(input_form)
         
