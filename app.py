@@ -162,7 +162,7 @@ def main():
             image_size = st.slider("Width and Height: ",32,896,416,32)
             
             modelName = st.selectbox("What model you want to use?",
-            ("Pre-train model", "Train model (yolov4-tiny)","Train model (yolov4)","Fast food detection"))
+            ("Pre-train model", "Train model (yolov4-tiny)","Fast food detection","Evaluation"))
             
             loading_model_button = st.form_submit_button("Load")
         
@@ -188,7 +188,7 @@ def main():
             st.title(modelName)
             handleNavigate(modelName,image_size,URL_FASTFOOD_MODEL,FASTFOOD_MODEL_NAME,download_file,update_file)
 
-        elif (modelName == "Train model (yolov4)"):
+        elif (modelName == "Evaluation"):
             st.write("File size is too large. I can't upload to github. So this model is only demo in local machine")
             st.write("One more thing is this model has no evaluation information")
             st.write("I am using this page to show evaluation chart of another training model")
