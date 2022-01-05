@@ -133,15 +133,15 @@ def show_download_model_button(model_name,url_model,files,is_update):
 
 def load_evaluation_img(path):
     st.header("Fast food evaluation chart")
-    st.image(path+"food-early-chart.png",600)
-    st.image(path+"food-mid-chart.png",600)
-    st.image(path+"food-final-chart.png",600)
+    st.image(path+"food-early-chart.png")
+    st.image(path+"food-mid-chart.png")
+    st.image(path+"food-final-chart.png")
     st.header("Fast food evaluation value")
-    st.image(path+"food-final-score.png",600)
+    st.image(path+"food-final-score.png")
     st.header("Test model evaluation chart")            
-    st.image(path+"test-evaluation.png",600)
-    st.header("Fast food evaluation value",600)
-    st.image(path+"test-final-score.png",600)
+    st.image(path+"test-evaluation.png")
+    st.header("Fast food evaluation value")
+    st.image(path+"test-final-score.png")
     
     
     
